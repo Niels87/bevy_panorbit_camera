@@ -598,6 +598,7 @@ fn pan_orbit_camera(
             // Make panning distance independent of resolution and FOV,
             if let Some(vp_size) = active_cam.viewport_size {
                 let mut multiplier = 1.0;
+
                 match *projection {
                     Projection::Perspective(ref p) => {
                         pan *= Vec2::new(p.fov * p.aspect_ratio, p.fov) / vp_size;
@@ -609,6 +610,7 @@ fn pan_orbit_camera(
                     Projection::Orthographic(ref p) => {
                         pan *= Vec2::new(p.area.width(), p.area.height()) / vp_size;
                     }
+                    Projection::Custom(_) => panic!(),
                 }
                 // Translate by local axes
                 let right = transform.rotation * Vec3::X * -pan.x;
